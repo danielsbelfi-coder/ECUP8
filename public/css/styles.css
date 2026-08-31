@@ -1,0 +1,196 @@
+:root {
+  --bg: #0B0F19;
+  --surface: #151B2B;
+  --border: #26304A;
+  --text: #E8ECF4;
+  --text-muted: #8993AB;
+  --accent: #00D4E0;
+  --accent-gold: #E8B84B;
+  --danger: #E85D5D;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, sans-serif;
+  padding: 24px;
+}
+
+.torneo-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.torneos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.form-torneo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 420px;
+  margin-bottom: 24px;
+}
+
+.form-torneo input,
+.form-torneo select {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: var(--text);
+  font-size: 15px;
+}
+
+.form-torneo label {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: -6px;
+}
+
+.form-torneo button {
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 6px;
+  padding: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primario {
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 6px;
+  padding: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-secundario {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-peligro {
+  background: var(--danger);
+  color: var(--text);
+  border: none;
+  border-radius: 6px;
+  padding: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.torneo-acciones {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  align-items: stretch;
+}
+
+.torneo-acciones form {
+  display: flex;
+  flex: 1;
+}
+
+.torneo-acciones form button,
+.torneo-acciones .btn-link {
+  width: 100%;
+}
+
+.btn-primario,
+.btn-secundario,
+.btn-peligro,
+.btn-link {
+  width: 100%;
+}
+
+.btn-link {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  background: var(--accent-gold);
+  color: var(--bg);
+  border: none;
+  border-radius: 6px;
+  padding: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+details {
+  margin-bottom: 24px;
+}
+
+summary {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent);
+  list-style: none;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+details[open] summary {
+  border-radius: 12px 12px 0 0;
+  border-bottom: none;
+}
+
+details .form-torneo {
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  margin-bottom: 0;
+}
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  color: var(--text);
+  padding: 14px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  max-width: 320px;
+  animation: toast-in 0.3s ease;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.form-torneo small {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-top: -8px;
+}

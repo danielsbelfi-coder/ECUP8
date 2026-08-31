@@ -1,0 +1,75 @@
+<h1>ECUP8</h1>
+<details {{#if formData.nombre}}open{{/if}}>
+    <summary>+ Publicar torneo</summary>
+    <form action="/torneos" method="POST" class="form-torneo">
+        <label for="nombre">Nombre del torneo</label>
+        <input type="text" name="nombre" id="nombre" value="{{formData.nombre}}"/>
+        <label for="fecha">Fecha</label>
+        <input type="date" name="fecha" id="fecha" value="{{formData.fecha}}" />
+        <label for="hora">Hora</label>
+        <input type="time" name="hora" id="hora" value="{{formData.hora}}"/>
+        <label for="max_jugadores">Número de Participantes</label>
+        <input type="number" name="max_jugadores" id="max_jugadores" min="4" max="8" value="{{formData.max_jugadores}}"/>
+        <label for="region">Región</label>
+        <select name="region" id="region" value="{{formData.region}}">
+            <option value="Chile">Chile</option>
+            <option value="Argentina">Argentina</option>
+            <option value="Brasil">Brasil</option>
+            <option value="Perú">Perú</option>
+        </select>
+        <label for="link_coordinacion">Link de coordinación</label>
+        <input type="text" name="link_coordinacion" id="link_coordinacion" value="{{formData.link_coordinacion}}">
+        <small>Este contacto será visible solo para quienes se unan al torneo.</small>
+        <button type="submit">Publicar</button>
+        <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+    </form>
+</details>
+
+<div class="torneos-grid">
+    {{#each torneos}}
+    <div class="torneo-card">
+        <p>{{this.nombre}}</p>
+        <p>{{this.region}}</p>
+
+        <p>{{this.fechaFormateada}}</p>
+
+        <div class="torneo-acciones">
+            {{#if this.esHost}}
+            <form action="/torneos/{{this.id}}/eliminar" method="POST">
+                <button type="submit" class="btn-peligro">Borrar</button>
+                <input type="hidden" name="_csrf" value="{{../csrfToken}}" />
+            </form>
+            {{/if}}
+
+            {{#if this.yaInscrito}}
+            <form action="/torneos/{{this.id}}/salir" method="POST">
+                <button type="submit" class="btn-secundario">Ya no puedo</button>
+                <input type="hidden" name="_csrf" value="{{../csrfToken}}" />
+            </form>
+            {{else}}
+            <form action="/torneos/{{this.id}}/unirse" method="POST">
+                <button type="submit" class="btn-primario">Unirme</button>
+                <input type="hidden" name="_csrf" value="{{../csrfToken}}" />
+            </form>
+            {{/if}}
+
+            {{#if this.link_coordinacion}}
+            <a href="{{this.link_coordinacion}}" class="btn-link" target="_blank" rel="noopener noreferrer">Link
+                coordinación</a>
+            {{/if}}
+        </div>
+
+    </div>
+
+    {{/each}}
+</div>
+{{#if user}}
+<p>Hola, {{user.user_metadata.full_name}}</p>
+<form action="/auth/logout" method="POST">
+    <button type="submit">Cerrar sesión</button>
+    <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+</form>
+{{else}}
+<p>No estás logueado</p>
+<a href="/auth/discord">Iniciar sesión con Discord</a>
+{{/if}}
