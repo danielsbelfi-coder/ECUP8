@@ -5,6 +5,7 @@ async function obtenerTorneos() {
     return await supabase
     .from("torneos")
     .select("*")
+    .gte("fecha", new Date().toISOString())
 }
 
 async function crearTorneo(datos) {
