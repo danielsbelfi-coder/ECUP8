@@ -24,8 +24,16 @@ async function getUserinscriptions(usuario_id) {
     .eq("usuario_id", usuario_id)
 }
 
+async function contarInscritos(torneo_id) {
+  return await supabase
+    .from("inscripciones")
+    .select("*", { count: "exact", head: true })
+    .eq("torneo_id", torneo_id);
+}
+
 module.exports = {
     joinTournament,
     leaveTournament,
-    getUserinscriptions
+    getUserinscriptions,
+    contarInscritos
 }
