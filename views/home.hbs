@@ -27,11 +27,13 @@
 
 <div class="torneos-grid">
     {{#each torneos}}
-    <div class="torneo-card">
+    <div class="torneo-card" id="torneo-{{this.id}}">
         <p>{{this.nombre}}</p>
         <p>{{this.region}}</p>
 
         <p>{{this.fechaFormateada}}</p>
+
+        <button type="button" class="btn-secundario btn-share" data-torneo-id="{{this.id}}">Compartir</button>
 
         <div class="torneo-acciones">
             {{#if this.esHost}}

@@ -194,3 +194,12 @@ details .form-torneo {
   font-size: 12px;
   margin-top: -8px;
 }
+
+@keyframes destello {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; }
+  50% { box-shadow: 0 0 0 6px var(--accent); }
+}
+
+.destacado {
+  animation: destello 1s ease-in-out 2;
+}
