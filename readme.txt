@@ -11,10 +11,18 @@ Plataforma para publicar y encontrar torneos personalizados de eFootball. Resuel
 - Unirse o darse de baja, con el cupo actualizándose solo
 - Link de coordinación privado (Discord/WhatsApp), visible solo para quien esté inscrito o sea el host
 - Login real con Discord
+- **Salas de amistosos**, independientes de los torneos: 1v1, 2v2 o 3v3, genuinos o equipo ideal, con ID de jugador por inscripción (porque muchos usuarios tienen varias cuentas de eFootball) y número de sala editable después de crear la sala
 
 ## Qué NO hace, a propósito
 
 No lleva registro de resultados ni arma el bracket — eso ya lo resuelve el propio juego. ECUP8 coordina el armado del torneo, nada más; pedirle a alguien que cargue resultados a mano sería una tarea que nadie sostendría.
+
+## Torneos vs. Amistosos
+
+Son dos secciones independientes, con sus propias tablas y reglas:
+
+- **Torneos**: eliminación directa, de 4 a 8 jugadores (número par), pensados para competencia formal
+- **Amistosos**: partidas casuales entre amigos, con más flexibilidad de formato (1v1, 2v2, 3v3) y sin restricción de cantidad par
 
 ## Stack
 
@@ -48,16 +56,17 @@ public/         → CSS y JavaScript del navegador
 
 - Row Level Security en todas las tablas con datos sensibles
 - Protección CSRF en todos los formularios (`POST`)
-- Rate limiting en la creación de torneos
+- Rate limiting en la creación de torneos y amistosos
 - Cookies de sesión seguras en producción (`secure: true`, condicionado a `NODE_ENV`)
 - Variables sensibles fuera del control de versiones (`.env` en `.gitignore`)
+- Datos de contacto (link de coordinación, número de sala, ID de jugador) filtrados en el servidor: solo llegan al navegador de quien está inscrito o es el host
 
 ## Cómo correrlo localmente
 
 1. Clonar el repositorio
 2. `npm install`
 3. Copiar `.env.example` a `.env` y completar las variables (ver abajo)
-4. Correr el schema SQL en tu propio proyecto de Supabase
+4. Correr los scripts SQL en tu propio proyecto de Supabase (schema de torneos y schema de amistosos)
 5. Configurar el proveedor de Discord en Supabase Authentication, con tu propia app de Discord Developer Portal
 6. `npm run dev`
 

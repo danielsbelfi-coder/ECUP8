@@ -18,6 +18,7 @@ async function changeCode (code) {
 async function discordlogout() {
     return await supabase.auth.signOut()    
 }
+
 module.exports = {
     discordLogin,
     changeCode,

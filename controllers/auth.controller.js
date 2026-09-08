@@ -4,6 +4,7 @@ const PORT = process.env.PORT
 
 async function login(req, res) {
     try {
+        req.session.volverA = req.query.volver || "/";
         const { data, error } = await discordLogin(`${process.env.APP_URL}/auth/callback`)
 
         if (error) {
@@ -27,7 +28,8 @@ async function callback(req, res) {
             throw new Error(error.message)
         }
         req.session.user = data.session.user
-        res.redirect("/");
+        const destino = req.session.volverA || "/";
+        res.redirect(destino);
 
 
     } catch (error) {

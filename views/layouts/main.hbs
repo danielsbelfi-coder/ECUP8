@@ -9,6 +9,17 @@
 </head>
 
 <body>
+    {{#if user}}
+    <p>Hola, {{user.user_metadata.full_name}}</p>
+    <form action="/auth/logout" method="POST">
+        <button type="submit">Cerrar sesión</button>
+        <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+    </form>
+    {{else}}
+    <p>No estás logueado</p>
+    <a href="/auth/discord?volver={{rutaActual}}">Iniciar sesión con Discord</a>
+    {{/if}}
+
     {{{body}}}
     <script src="/flash.js"></script>
     <script src="/share.js"></script>

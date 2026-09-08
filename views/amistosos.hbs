@@ -1,0 +1,103 @@
+<a href="/">Ver torneos</a>
+<h1>Amistosos</h1>
+
+<form action="/amistosos" method="POST" class="form-torneo">
+    <label for="region">Región</label>
+    <select name="region" id="region">
+        <option value="Chile">Chile</option>
+        <option value="Argentina">Argentina</option>
+        <option value="Brasil">Brasil</option>
+        <option value="Perú">Perú</option>
+    </select>
+
+    <label for="modo_codigo">Modos</label>
+    <select name="modo_codigo" id="modo_codigo">
+        {{#each modos}}
+        <option value="{{this.codigo}}">{{this.nombre}}</option>
+        {{/each}}
+    </select>
+
+    <label for="tipo_equipo">Tipo de equipos</label>
+    <select name="tipo_equipo" id="tipo_equipo">
+        <option value="genuinos">Genuinos</option>
+        <option value="equipo_ideal">Equipo ideal</option>
+    </select>
+
+    <label for="fecha">Fecha</label>
+    <input type="date" name="fecha" id="fecha" />
+
+    <label for="hora">Hora</label>
+    <input type="time" name="hora" id="hora" />
+
+    <label for="link_coordinacion">Link de coordinación</label>
+    <input type="text" name="link_coordinacion" id="link_coordinacion">
+    <small>Este contacto será visible solo para quienes se unan al amistoso.</small>
+
+    <label for="id_jugador">id del jugador en Efootball</label>
+    <input type="text" name="id_jugador" id="id_jugador">
+
+    <label for="numero_sala">Número de sala</label>
+    <input type="number" name="numero_sala" id="numero_sala">
+    <small>Opcional. Si todavía no tienes el número de sala, puedes agregarlo después.</small>
+
+    <button type="submit">Publicar</button>
+    <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+
+</form>
+
+
+<div class="amistosos-grid">
+    {{#each amistosos}}
+    <div class="torneo-card" id="amistoso-{{this.id}}">
+        <span class="badge">{{this.modo_codigo}}</span>
+        <p>{{this.tipo_equipo}}</p>
+        <p>{{this.region}}</p>
+        <p>{{this.fechaFormateada}}</p>
+        <span class="badge">{{this.inscritos}}/{{this.cupoMaximo}}</span>
+
+        <button type="button" class="btn-secundario btn-share" data-item-id="{{this.id}}"
+            data-tipo="amistoso">Compartir</button>
+
+        <div class="torneo-acciones">
+            {{#if this.esHost}}
+
+            <form action="/amistosos/{{this.id}}/eliminar" method="POST">
+                <button type="submit" class="btn-peligro">Borrar</button>
+                <input type="hidden" name="_csrf" value="{{../csrfToken}}" />
+            </form>
+
+            <form action="/amistosos/{{this.id}}/sala" method="POST" class="form-sala">
+                <label for="numero_sala_{{this.id}}">Número de sala</label>
+                <input type="number" name="numero_sala" id="numero_sala_{{this.id}}" />
+                <button type="submit" class="btn-secundario">Guardar</button>
+                <input type="hidden" name="_csrf" value="{{../csrfToken}}" />
+            </form>
+            {{/if}}
+
+            {{#if this.yaInscrito}}
+            <form action="/amistosos/{{this.id}}/salir" method="POST">
+                <button type="submit" class="btn-secundario">Ya no puedo</button>
+                <input type="hidden" name="_csrf" value="{{../csrfToken}}" />
+            </form>
+
+            {{#if this.numero_sala}}
+            <p>Número de sala: {{this.numero_sala}}</p>
+            {{/if}}
+
+            {{else}}
+            <form action="/amistosos/{{this.id}}/unirse" method="POST">
+                <label for="id_jugador_{{this.id}}">Tu ID de jugador</label>
+                <input type="text" name="id_jugador" id="id_jugador_{{this.id}}" />
+                <button type="submit" class="btn-primario">Unirme</button>
+                <input type="hidden" name="_csrf" value="{{../csrfToken}}" />
+            </form>
+            {{/if}}
+
+            {{#if this.link_coordinacion}}
+            <a href="{{this.link_coordinacion}}" class="btn-link" target="_blank" rel="noopener noreferrer">Link
+                coordinación</a>
+            {{/if}}
+        </div>
+    </div>
+    {{/each}}
+</div>

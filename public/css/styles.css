@@ -28,7 +28,8 @@ body {
   padding: 20px;
   margin-bottom: 16px;
 }
-.torneos-grid {
+.torneos-grid,
+.amistosos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 16px;
@@ -107,6 +108,7 @@ body {
   gap: 8px;
   margin-top: 12px;
   align-items: stretch;
+  flex-wrap: wrap;
 }
 
 .torneo-acciones form {
@@ -202,4 +204,54 @@ details .form-torneo {
 
 .destacado {
   animation: destello 1s ease-in-out 2;
+}
+
+.badge {
+  display: inline-block;
+  background: var(--accent-soft, rgba(0, 212, 224, 0.15));
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-right: 6px;
+}
+
+.form-sala {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.form-sala input {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  color: var(--text);
+  font-size: 14px;
+  width: 100px;
+}
+
+.form-sala label {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.torneo-acciones input[type="text"] {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: var(--text);
+  font-size: 14px;
+  width: 100%;
+}
+
+.torneo-acciones label {
+  font-size: 12px;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 4px;
 }

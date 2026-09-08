@@ -1,3 +1,4 @@
+<a href="/amistosos">Ver amistosos</a>
 <h1>ECUP8</h1>
 <details {{#if formData.nombre}}open{{/if}}>
     <summary>+ Publicar torneo</summary>
@@ -33,7 +34,7 @@
 
         <p>{{this.fechaFormateada}}</p>
 
-        <button type="button" class="btn-secundario btn-share" data-torneo-id="{{this.id}}">Compartir</button>
+        <button type="button" class="btn-secundario btn-share" data-item-id="{{this.id}}" data-tipo="torneo">Compartir</button>
 
         <div class="torneo-acciones">
             {{#if this.esHost}}
@@ -65,13 +66,3 @@
 
     {{/each}}
 </div>
-{{#if user}}
-<p>Hola, {{user.user_metadata.full_name}}</p>
-<form action="/auth/logout" method="POST">
-    <button type="submit">Cerrar sesión</button>
-    <input type="hidden" name="_csrf" value="{{csrfToken}}" />
-</form>
-{{else}}
-<p>No estás logueado</p>
-<a href="/auth/discord">Iniciar sesión con Discord</a>
-{{/if}}

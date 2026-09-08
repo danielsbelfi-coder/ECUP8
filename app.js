@@ -9,6 +9,8 @@ const inscriptionRouter = require ("./routes/inscription.routes.js")
 const indexRouter = require("./routes/index.routes.js");
 const { generarToken } = require("./middlewares/csrf.middleware.js");
 const isProduction = process.env.NODE_ENV === "production"
+const friendlyRouter = require("./routes/friendly.routes.js")
+const friendlyInscriptionsRouter = require("./routes/friendly_inscription.routes.js")
 
 
 const app = express();
@@ -42,6 +44,8 @@ app.use("/auth", authRouter)
 app.use("/", tournamentRouter)
 app.use("/", inscriptionRouter)
 app.use("/", indexRouter)
+app.use("/", friendlyRouter)
+app.use("/", friendlyInscriptionsRouter)
 
 module.exports = {
     app

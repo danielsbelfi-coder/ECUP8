@@ -40,6 +40,7 @@ async function listar(req, res) {
         req.session.formData = null
 
         res.render("home", {
+            rutaActual: req.path,
             torneos: tournamentWithState,
             user: req.session.user,
             idsInscritos,

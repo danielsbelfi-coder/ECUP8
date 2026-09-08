@@ -1,11 +1,10 @@
-
-
 const buttons = document.querySelectorAll(".btn-share");
 
 buttons.forEach((button) => {
     button.addEventListener("click", () => {
-        const idTorneo = button.dataset.torneoId;
-        const url = `${window.location.origin}/#torneo-${idTorneo}`;
+        const idItem = button.dataset.itemId;
+        const tipo = button.dataset.tipo;
+        const url = `${window.location.origin}${window.location.pathname}#${tipo}-${idItem}`;
         const esTactil = navigator.maxTouchPoints > 0;
 
         if (navigator.share && esTactil) {
