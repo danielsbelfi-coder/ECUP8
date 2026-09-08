@@ -110,7 +110,10 @@ async function crear(req, res) {
             linkFinal = `https://${link_coordinacion}`
         }
 
+        const nombreSala = `Sala de ${id_jugador}`;
+
         const { data, error } = await crearAmistoso({
+            nombre: nombreSala,
             modo_codigo,
             tipo_equipo,
             numero_sala,
