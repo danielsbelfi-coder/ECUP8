@@ -42,6 +42,7 @@ async function listarAmistosos(req, res) {
             inscritos: conteos[friendly.id] || 0,
             cupoMaximo: modos.find((modo) => modo.codigo === friendly.modo_codigo).cupo,
             yaInscrito: idsInscritos.includes(friendly.id),
+            yaComenzo: new Date(friendly.fecha) < new Date(),
             esHost: req.session.user && friendly.host_id === req.session.user.id,
             
             numero_sala: (idsInscritos.includes(friendly.id) || (req.session.user && friendly.host_id === req.session.user.id))

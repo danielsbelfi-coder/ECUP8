@@ -4,13 +4,14 @@
     <summary>+ Publicar torneo</summary>
     <form action="/torneos" method="POST" class="form-torneo">
         <label for="nombre">Nombre del torneo</label>
-        <input type="text" name="nombre" id="nombre" value="{{formData.nombre}}"/>
+        <input type="text" name="nombre" id="nombre" value="{{formData.nombre}}" />
         <label for="fecha">Fecha</label>
         <input type="date" name="fecha" id="fecha" value="{{formData.fecha}}" />
         <label for="hora">Hora</label>
-        <input type="time" name="hora" id="hora" value="{{formData.hora}}"/>
+        <input type="time" name="hora" id="hora" value="{{formData.hora}}" />
         <label for="max_jugadores">Número de Participantes</label>
-        <input type="number" name="max_jugadores" id="max_jugadores" min="4" max="8" value="{{formData.max_jugadores}}"/>
+        <input type="number" name="max_jugadores" id="max_jugadores" min="4" max="8"
+            value="{{formData.max_jugadores}}" />
         <label for="region">Región</label>
         <select name="region" id="region" value="{{formData.region}}">
             <option value="Chile">Chile</option>
@@ -29,12 +30,16 @@
 <div class="torneos-grid">
     {{#each torneos}}
     <div class="torneo-card" id="torneo-{{this.id}}">
+        {{#if this.yaComenzo}}
+        <p class="aviso-comenzo">Este torneo ya debería haber comenzado</p>
+        {{/if}}
         <p>{{this.nombre}}</p>
         <p>{{this.region}}</p>
 
         <p>{{this.fechaFormateada}}</p>
 
-        <button type="button" class="btn-secundario btn-share" data-item-id="{{this.id}}" data-tipo="torneo">Compartir</button>
+        <button type="button" class="btn-secundario btn-share" data-item-id="{{this.id}}"
+            data-tipo="torneo">Compartir</button>
 
         <div class="torneo-acciones">
             {{#if this.esHost}}

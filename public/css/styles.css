@@ -255,3 +255,9 @@ details .form-torneo {
   display: block;
   margin-bottom: 4px;
 }
+
+.aviso-comenzo {
+  color: var(--accent-gold);
+  font-size: 13px;
+  font-weight: 600;
+}

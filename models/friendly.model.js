@@ -2,11 +2,13 @@ const { supabase } = require("../lib/supabaseClient")
 
 
 async function obtenerAmistosos() {
+    const margenMs = 20 * 60 * 1000;
+    const fechaCorte = new Date(Date.now() - margenMs);
+
     return await supabase
         .from("amistosos")
         .select("*")
-        .gte("fecha", new Date().toISOString())
-
+        .gte("fecha", fechaCorte.toISOString())
 }
 
 async function obtenerModos() {

@@ -2,10 +2,13 @@ const { supabase } = require("../lib/supabaseClient");
 
 
 async function obtenerTorneos() {
+    const margenMs = 20 * 60 * 1000;
+    const fechaCorte = new Date(Date.now() - margenMs);
+
     return await supabase
-    .from("torneos")
-    .select("*")
-    .gte("fecha", new Date().toISOString())
+        .from("torneos")
+        .select("*")
+        .gte("fecha", fechaCorte.toISOString())
 }
 
 async function crearTorneo(datos) {

@@ -51,6 +51,7 @@ public/         → CSS y JavaScript del navegador
 - **El formato del torneo es un dato, no código fijo.** Hoy eFootball solo permite eliminación directa; si el juego agrega otro formato, se suma como una fila nueva en la tabla `formatos`, sin tocar el código.
 - **Los mensajes al usuario se gestionan en el navegador, no en el servidor.** El backend solo manda un código corto por la URL (ej. `?flash=created_tournament`); el navegador lo traduce a texto legible con `fetch()`, manteniendo la lógica de presentación separada de la de negocio.
 - **La visibilidad del link de coordinación se calcula en el controlador**, no con una política de RLS compleja: solo se envía al navegador si la persona está inscrita o es el host.
+- **Los torneos y amistosos permanecen visibles 20 minutos después de su hora de inicio**, con un aviso ("ya debería haber comenzado"). Sin este margen, la sala desaparecería justo cuando más se necesita el número de sala para coordinar.
 
 ## Seguridad implementada
 

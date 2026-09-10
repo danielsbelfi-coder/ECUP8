@@ -23,6 +23,7 @@ async function listar(req, res) {
             ...torneo,
             yaInscrito: idsInscritos.includes(torneo.id),
             esHost: req.session.user && torneo.host_id === req.session.user.id,
+            yaComenzo: new Date(torneo.fecha) < new Date(),
             link_coordinacion: (idsInscritos.includes(torneo.id) || (req.session.user && torneo.host_id === req.session.user.id))
                 ? torneo.link_coordinacion
                 : null,
@@ -32,7 +33,7 @@ async function listar(req, res) {
                 month: "long",
                 hour: "2-digit",
                 minute: "2-digit"
-            }
+            },
             )
         }))
 

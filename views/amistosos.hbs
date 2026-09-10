@@ -49,6 +49,9 @@
 <div class="amistosos-grid">
     {{#each amistosos}}
     <div class="torneo-card" id="amistoso-{{this.id}}">
+        {{#if this.yaComenzo}}
+        <p class="aviso-comenzo">Este amistoso ya debería haber comenzado</p>
+        {{/if}}
         <h3>{{this.nombre}}</h3>
         <span class="badge">{{this.modo_codigo}}</span>
         <p>{{this.tipo_equipo}}</p>
