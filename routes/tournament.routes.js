@@ -11,4 +11,6 @@ router.post("/torneos", verificarToken, limitadorCreacion, tournamentController.
 
 router.post("/torneos/:id/eliminar", verificarToken, tournamentController.eliminar )
 
+router.post("/torneos/:id/sala", verificarToken, tournamentController.actualizarSala)
+
 module.exports = router;

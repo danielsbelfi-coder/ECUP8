@@ -5,13 +5,19 @@
     <form action="/torneos" method="POST" class="form-torneo">
         <label for="nombre">Nombre del torneo</label>
         <input type="text" name="nombre" id="nombre" value="{{formData.nombre}}" />
+
         <label for="fecha">Fecha</label>
         <input type="date" name="fecha" id="fecha" value="{{formData.fecha}}" />
+
         <label for="hora">Hora</label>
         <input type="time" name="hora" id="hora" value="{{formData.hora}}" />
+
         <label for="max_jugadores">Número de Participantes</label>
-        <input type="number" name="max_jugadores" id="max_jugadores" min="4" max="8"
-            value="{{formData.max_jugadores}}" />
+        <select name="max_jugadores" id="max_jugadores">
+            <option value="4">4 jugadores</option>
+            <option value="8">8 jugadores</option>
+        </select>
+
         <label for="region">Región</label>
         <select name="region" id="region" value="{{formData.region}}">
             <option value="Chile">Chile</option>
@@ -19,9 +25,11 @@
             <option value="Brasil">Brasil</option>
             <option value="Perú">Perú</option>
         </select>
+
         <label for="link_coordinacion">Link de coordinación</label>
         <input type="text" name="link_coordinacion" id="link_coordinacion" value="{{formData.link_coordinacion}}">
-        <small>Este contacto será visible solo para quienes se unan al torneo.</small>
+        <small>Opcional. Este contacto será visible solo para quienes se unan al torneo.</small>
+
         <button type="submit">Publicar</button>
         <input type="hidden" name="_csrf" value="{{csrfToken}}" />
     </form>
@@ -47,6 +55,12 @@
                 <button type="submit" class="btn-peligro">Borrar</button>
                 <input type="hidden" name="_csrf" value="{{../csrfToken}}" />
             </form>
+            <form action="/torneos/{{this.id}}/sala" method="POST" class="form-sala">
+                <label for="numero_sala_{{this.id}}">Número de sala</label>
+                <input type="number" name="numero_sala" id="numero_sala_{{this.id}}" />
+                <button type="submit" class="btn-secundario">Guardar</button>
+                <input type="hidden" name="_csrf" value="{{../csrfToken}}" />
+            </form>
             {{/if}}
 
             {{#if this.yaInscrito}}
@@ -54,6 +68,9 @@
                 <button type="submit" class="btn-secundario">Ya no puedo</button>
                 <input type="hidden" name="_csrf" value="{{../csrfToken}}" />
             </form>
+            {{#if this.numero_sala}}
+            <p>Número de sala: {{this.numero_sala}}</p>
+            {{/if}}
             {{else}}
             <form action="/torneos/{{this.id}}/unirse" method="POST">
                 <button type="submit" class="btn-primario">Unirme</button>

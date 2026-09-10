@@ -1,6 +1,6 @@
 const { messages } = require("../lib/messages");
 const { getUserinscriptions, joinTournament } = require("../models/inscription.model");
-const { obtenerTorneos, crearTorneo, eliminarTorneo, obtenerTorneoPorId } = require("../models/tournament.model")
+const { obtenerTorneos, crearTorneo, eliminarTorneo, obtenerTorneoPorId, actualizarNumeroSala } = require("../models/tournament.model")
 
 
 async function listar(req, res) {
@@ -29,12 +29,15 @@ async function listar(req, res) {
                 : null,
             fechaFormateada: new Date(torneo.fecha)
                 .toLocaleString("es-CL", {
-                day: "2-digit",
-                month: "long",
-                hour: "2-digit",
-                minute: "2-digit"
-            },
-            )
+                    day: "2-digit",
+                    month: "long",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+                ),
+            numero_sala: (idsInscritos.includes(torneo.id) || (req.session.user && torneo.host_id === req.session.user.id))
+                ? torneo.numero_sala
+                : null,
         }))
 
         const formData = req.session.formData || {};
@@ -63,7 +66,7 @@ async function crear(req, res) {
             throw new Error("require_login_create");
         }
 
-        if (!nombre || !fecha || !hora || !max_jugadores || !link_coordinacion || !region) {
+        if (!nombre || !fecha || !hora || !max_jugadores || !region) {
             throw new Error("require_tournament_data")
         }
 
@@ -72,21 +75,20 @@ async function crear(req, res) {
         if (fechaCompleta < new Date())
             throw new Error("expired_date")
 
-        if (Number(max_jugadores) < 4 || Number(max_jugadores) > 8)
+        if (Number(max_jugadores) !== 4 && Number(max_jugadores) !== 8)
             throw new Error("min_max_players")
 
-        if (Number(max_jugadores) % 2 !== 0)
-            throw new Error("pair_condition")
-
         const soloNumeros = /^[0-9]+$/;
-        let linkFinal;
+        let linkFinal = null;
 
-        if (soloNumeros.test(link_coordinacion)) {
-            linkFinal = `https://wa.me/${link_coordinacion}`
-        } else if (link_coordinacion.startsWith("http")) {
-            linkFinal = link_coordinacion
-        } else {
-            linkFinal = `https://${link_coordinacion}`
+        if (link_coordinacion) {
+            if (soloNumeros.test(link_coordinacion)) {
+                linkFinal = `https://wa.me/${link_coordinacion}`
+            } else if (link_coordinacion.startsWith("http")) {
+                linkFinal = link_coordinacion
+            } else {
+                linkFinal = `https://${link_coordinacion}`
+            }
         }
 
         const { data, error } = await crearTorneo({
@@ -112,7 +114,7 @@ async function crear(req, res) {
             throw new Error(errorJoin.message)
         }
 
-                res.redirect("/?flash=created_tournament")
+        res.redirect("/?flash=created_tournament")
 
     } catch (error) {
         const code = messages[error.message] ? error.message : "unknown_error"
@@ -149,8 +151,41 @@ async function eliminar(req, res) {
 
 }
 
+async function actualizarSala(req, res) {
+    try {
+        const { numero_sala } = req.body;
+
+        const { data, error } = await obtenerTorneoPorId(req.params.id)
+
+        if (!req.session.user) {
+            throw new Error("require_login_to_edit")
+        }
+
+        if (error) {
+            throw new Error(error.message)
+        }
+
+        if (data[0].host_id !== req.session.user.id) {
+            throw new Error("require_permissions_to_delete")
+        }
+
+        const { data: resultado, error: errorEditar } = await actualizarNumeroSala(req.params.id, numero_sala)
+
+        if (errorEditar) {
+            throw new Error(errorEditar.message)
+        }
+
+        res.redirect("/?flash=edit_success")
+
+    } catch (error) {
+        const code = messages[error.message] ? error.message : "unknown_error"
+        res.redirect("/?flash=" + code)
+    }
+}
+
 module.exports = {
     listar,
     crear,
     eliminar,
+    actualizarSala
 };

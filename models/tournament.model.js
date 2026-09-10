@@ -32,9 +32,17 @@ async function obtenerTorneoPorId(torneo_id) {
     .eq("id", torneo_id)    
 }
 
+async function actualizarNumeroSala(torneo_id, numero_sala) {
+    return await supabase
+    .from("torneos")
+    .update({ numero_sala })
+    .eq("id", torneo_id)
+}
+
 module.exports = { 
     obtenerTorneos,
     crearTorneo,
     eliminarTorneo,
-    obtenerTorneoPorId
+    obtenerTorneoPorId,
+    actualizarNumeroSala
 }

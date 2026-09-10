@@ -44,7 +44,7 @@ async function listarAmistosos(req, res) {
             yaInscrito: idsInscritos.includes(friendly.id),
             yaComenzo: new Date(friendly.fecha) < new Date(),
             esHost: req.session.user && friendly.host_id === req.session.user.id,
-            
+
             numero_sala: (idsInscritos.includes(friendly.id) || (req.session.user && friendly.host_id === req.session.user.id))
                 ? friendly.numero_sala
                 : null,
@@ -91,7 +91,7 @@ async function crear(req, res) {
             throw new Error("require_login_create");
         }
 
-        if (!id_jugador || !modo_codigo || !tipo_equipo || !region || !fecha || !hora || !link_coordinacion) {
+        if (!id_jugador || !modo_codigo || !tipo_equipo || !region || !fecha || !hora) {
             throw new Error("require_friendly_data")
         }
 
@@ -101,14 +101,16 @@ async function crear(req, res) {
             throw new Error("expired_date")
 
         const soloNumeros = /^[0-9]+$/;
-        let linkFinal;
+        let linkFinal = null;
 
-        if (soloNumeros.test(link_coordinacion)) {
-            linkFinal = `https://wa.me/${link_coordinacion}`
-        } else if (link_coordinacion.startsWith("http")) {
-            linkFinal = link_coordinacion
-        } else {
-            linkFinal = `https://${link_coordinacion}`
+        if (link_coordinacion) {
+            if (soloNumeros.test(link_coordinacion)) {
+                linkFinal = `https://wa.me/${link_coordinacion}`
+            } else if (link_coordinacion.startsWith("http")) {
+                linkFinal = link_coordinacion
+            } else {
+                linkFinal = `https://${link_coordinacion}`
+            }
         }
 
         const nombreSala = `Sala de ${id_jugador}`;
